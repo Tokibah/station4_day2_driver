@@ -19,7 +19,7 @@ class _RidePageState extends State<RidePage> {
   List<RideCard> ridecard = [];
   bool isJoin = true;
   String totalfee = 'RM0:00';
-  List<RideCard> filter = [];
+  //List<RideCard> filter = [];
   bool isActive = true;
 
   @override
@@ -40,7 +40,7 @@ class _RidePageState extends State<RidePage> {
     user = await Rider.getRider(widget.user);
     List<Ride> rideList = await Ride.getRide(user!.join);
     ridecard = await RideCard.createRideCard(rideList);
-    applyFilter();
+    //applyFilter();
     countTotal();
   }
 
@@ -55,7 +55,7 @@ class _RidePageState extends State<RidePage> {
       total += double.parse(feeS);
     }
     for (var ride in ridecan) {
-      final feeS = ride.fee.replaceRange(0, 1, '');
+      final feeS = ride.fee.replaceRange(0, 2, '');
       total += double.parse(feeS);
     }
     totalfee = "RM${total.toStringAsFixed(2)}";
@@ -65,22 +65,22 @@ class _RidePageState extends State<RidePage> {
     });
   }
 
-  void applyFilter() async {
-    filter = ridecard;
-    if (selected.contains("active")) {
-      filter = ridecard.where((e) => e.ride.status == true).toList();
-      isActive = true;
-    }
-    if (selected.contains("inactive")) {
-      filter = ridecard.where((e) => e.ride.status == false).toList();
-      isActive = false;
-    }
-    if (selected.contains("cancel")) {
-      List<Ride> rideList = await Ride.getRide(user!.cancel);
-      filter = await RideCard.createRideCard(rideList);
-      isActive = true;
-    }
-  }
+  // void applyFilter() async {
+  //   filter = ridecard;
+  //   if (selected.contains("active")) {
+  //     filter = ridecard.where((e) => e.ride.status == true).toList();
+  //     isActive = true;
+  //   }
+  //   if (selected.contains("inactive")) {
+  //     filter = ridecard.where((e) => e.ride.status == false).toList();
+  //     isActive = false;
+  //   }
+  //   if (selected.contains("cancel")) {
+  //     List<Ride> rideList = await Ride.getRide(user!.cancel);
+  //     filter = await RideCard.createRideCard(rideList);
+  //     isActive = true;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -113,9 +113,9 @@ class _RidePageState extends State<RidePage> {
                 : isloading
                     ? Center(child: CircularProgressIndicator())
                     : ListView.builder(
-                        itemCount: filter.length,
+                        itemCount: ridecard.length,
                         itemBuilder: (context, index) {
-                          RideCard card = filter[index];
+                          RideCard card = ridecard[index];
                           return Opacity(
                             opacity: isActive ? 1 : 0.6,
                             child: Container(
@@ -159,7 +159,7 @@ class _RidePageState extends State<RidePage> {
                                               ),
                                               const Icon(Icons.arrow_forward),
                                               Text(
-                                                card.ride.destinaton,
+                                                card.ride.destination,
                                                 style: const TextStyle(
                                                     fontSize: 20),
                                               ),
@@ -211,7 +211,7 @@ class _RidePageState extends State<RidePage> {
         SizedBox(
             width: double.infinity,
             child:
-                ElevatedButton(onPressed: getData, child: Icon(Icons.refresh)))
+                ElevatedButton(onPressed: getData, child: Icon(Icons.refresh, color: Colors.white,)))
       ]),
     );
   }

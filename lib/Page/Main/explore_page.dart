@@ -4,7 +4,6 @@ import 'package:wsmb_rider/Modal/ride_repo.dart';
 import 'package:wsmb_rider/Modal/ridecard_repo.dart';
 import 'package:wsmb_rider/Modal/rider_repo.dart';
 import 'package:wsmb_rider/Page/Main/ride_card_view.dart';
-import 'package:wsmb_rider/main.dart';
 
 class ExplorePage extends StatefulWidget {
   const ExplorePage({super.key, required this.user});
@@ -26,6 +25,10 @@ class _ExplorePageState extends State<ExplorePage> {
   }
 
   void getData() async {
+    ridecardList = [];
+    setState(() {
+      isLoading = true;
+    });
     rider = await Rider.getRider(widget.user);
     final rideMap = await FirebaseFirestore.instance.collection('Ride').get();
     final allRide = rideMap.docs.map((e) => Ride.fromMap(e.data())).toList();
@@ -57,12 +60,12 @@ class _ExplorePageState extends State<ExplorePage> {
             ? const Center(child: CircularProgressIndicator())
             : Column(
                 children: [
-                  Container(
-                    margin: const EdgeInsets.all(10),
-                    height: 100,
-                    color: ThemeProvider.honeydew,
-                    child: const TextField(),
-                  ),
+                  // Container(
+                  //   margin: const EdgeInsets.all(10),
+                  //   height: 100,
+                  //   color: ThemeProvider.honeydew,
+                  //   child: const TextField(),
+                  // ),
                   RideCardView(
                     rideCard: ridecardList,
                     rider: rider,

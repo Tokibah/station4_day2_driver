@@ -147,7 +147,7 @@ class Rider {
     }
   }
 
-  static void joinRide(Ride ride, Rider rider) async {
+  static Future<void> joinRide(Ride ride, Rider rider) async {
     final ref = FirebaseFirestore.instance.collection('Ride').doc(ride.id);
     await firestore.doc(rider.id).update({
       'join': FieldValue.arrayUnion([ref])

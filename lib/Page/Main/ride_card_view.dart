@@ -84,7 +84,7 @@ class _RideCardViewState extends State<RideCardView> {
                   ),
                   const Icon(Icons.arrow_forward),
                   Text(
-                    card.ride.destinaton,
+                    card.ride.destination,
                     style: const TextStyle(fontSize: 20),
                   ),
                 ],
@@ -107,9 +107,13 @@ class _RideCardViewState extends State<RideCardView> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                     onPressed: () async {
-                      Rider.joinRide(card.ride, widget.rider!);
-                      widget.refresh;
+                      await Rider.joinRide(card.ride, widget.rider!);
+
                       Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Joined Ride")));
+                      await widget.refresh();
+
                     },
                     child: const Text("Join")),
               ),
@@ -128,7 +132,7 @@ class _RideCardViewState extends State<RideCardView> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        height: 410,
+        height: 530,
         child: ListView.builder(
           itemCount: widget.rideCard.length,
           itemBuilder: (context, index) {
@@ -171,7 +175,7 @@ class _RideCardViewState extends State<RideCardView> {
                                 ),
                                 const Icon(Icons.arrow_forward),
                                 Text(
-                                  card.ride.destinaton,
+                                  card.ride.destination,
                                   style: const TextStyle(fontSize: 20),
                                 ),
                               ],

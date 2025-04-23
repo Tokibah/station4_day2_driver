@@ -3,27 +3,27 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Ride {
   final String id;
   final DateTime date;
-  final String destinaton;
+  final String destination;
   final String origin;
   final String fee;
-  final bool status;
 
   Ride(
       {required this.id,
       required this.date,
-      required this.destinaton,
+      required this.destination,
       required this.origin,
-      required this.fee,
-      required this.status});
+      required this.fee,}
+      );
 
   factory Ride.fromMap(Map<String, dynamic> map) {
     return Ride(
         id: map['id'],
         date: DateTime.parse(map['date']),
-        destinaton: map['destination'],
+        destination: map['destination'],
         origin: map['origin'],
         fee: map['fee'],
-        status: map['status']);
+        //status: map['status']
+    );
   }
 
   static Future<List<Ride>> getRide(List<DocumentReference>? refList) async {
